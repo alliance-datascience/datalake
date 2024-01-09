@@ -3,10 +3,10 @@
 
 ## Repository content
 
-> Data download
-> Transform from tiff to NC
-> Transform from NC to ZARR
-> How to Zarr
+- Data download
+- Transform from tiff to NC
+- Transform from NC to ZARR
+- How to Zarr
 
 ## Source Data
 
