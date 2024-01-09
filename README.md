@@ -1,7 +1,23 @@
 
-# datalake
+# WIP
 
-This repository provides Python code for connecting to Amazon S3 and working with climate data using the xarray library. The data is stored in Zarr format on S3, and the code demonstrates how to access and manipulate climate data variables such as solar radiation flux, wind speed, relative humidity, and precipitation.
+## Repository content
+
+> Data download
+> Transform from tiff to NC
+> Transform from NC to ZARR
+> How to Zarr
+
+## Source Data
+
+| Datasource | Variable |
+| ----------- | ----------- |
+| CHIRP | Precipitation |
+| CHIRT | Min temperature |
+| AGERA5 | 10m Wind Speed|
+| AGERA5 | 2m Relative humidity|
+| AGERA5 | 2m Temperature |
+| AGERA5 | Solar Flux |
 
 ## Requirements
 Python 3.x
