@@ -11,7 +11,7 @@
 ## Source Data
 
 | Datasource | Variable |API Name|S3|
-| ----------- | ----------- |----------- |
+| ----------- | ----------- |----------- |----------- |
 | CHIRP | Precipitation |chirps-precipitation |s3://climate-action-datalake/zone=raw/source=chirps/variable=precipitation.zarr/|
 | CHIRT | Min temperature |WIP||
 | AGERA5 | 10m Wind Speed|WIP||
