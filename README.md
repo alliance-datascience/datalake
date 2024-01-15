@@ -59,6 +59,12 @@ The sample query in JSON format is:
 }
 ```
 
+You can test the API using curl utily of Linux
+
+```
+curl -X POST https://zarr-query-api-rv7rkv4opa-uc.a.run.app/v1/getdataOnePoint -H 'Content-Type: application/json' -d '{"variableName": "agera5-maxairtemperature","startDt":"2014-01-01","endDt":"2014-02-01","lat":2.269928 , "lon":-71.700696}' -o result.nc
+```
+
 **In samples folder under R folder the file called zarrReading.r has an example of how to use the API**
 
 ## Usage
