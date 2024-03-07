@@ -1,3 +1,7 @@
 *.cvs
 *.nc
 *.csv
+*.tiff
+*.asc
+*.tif
+*.gz
