@@ -5,3 +5,4 @@
 *.asc
 *.tif
 *.gz
+*.zarr
