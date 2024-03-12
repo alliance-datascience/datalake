@@ -61,6 +61,7 @@ def uncompressGunzip (path:str):
 
 def VtransformCHIRTSToNc(inputPath, file, outputPath):
     tiffFile = inputPath+file
+    print(tiffFile)
     allFiles = xr.open_dataset(tiffFile)
     dateContent = file.split('.')
     date = datetime(int(dateContent[-4]),int(dateContent[-3]),int(dateContent[-2]))
