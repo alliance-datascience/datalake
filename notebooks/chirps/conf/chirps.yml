@@ -8,5 +8,6 @@ metadata:
 chirpsArguments:
     pathforTGZ: "/home/ec2-user/SageMaker/datalake/notebooks/chirps/tgz/"
     pathforNCDF: "/home/ec2-user/SageMaker/datalake/notebooks/chirps/nc/"
-    awsChirpsPath: "s3://climate-action-datalake/zone=raw/source=chirps/variable=precipitation.zarr/"
+    awsChirpsLandingPath: "s3://climate-action-datalake/zone=landing/source=CHIRPS/variable=precipitation/"
+    awsChirpsRawPath: "s3://climate-action-datalake/zone=raw/source=chirps/variable=precipitation.zarr/"
     awsChirpsTemporalPath: "s3://climate-action-datalake/zone=temporal/source=chirps/variable=precipitation/"
