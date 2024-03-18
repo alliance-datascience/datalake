@@ -2,3 +2,8 @@
 *.nc
 *.csv
 .ipynb_checkpoints
+*.tiff
+*.asc
+*.tif
+*.gz
+*.zarr
