@@ -1,0 +1,21 @@
+apiVersion: argoproj.io
+kind: Workflow
+metadata:
+  generateName: geospatialdata
+  project_name : "DATACUBE"
+  use_case: "GLOBAL"
+  
+chirpsArguments:
+    pathforTGZ: "/home/ec2-user/SageMaker/datalake/notebooks/chirps/tgz/"
+    pathforNCDF: "/home/ec2-user/SageMaker/datalake/notebooks/chirps/nc/"
+    awsChirpsLandingPath: "s3://climate-action-datalake/zone=landing/source=CHIRPS/variable=precipitation/"
+    awsChirpsRawPath: "s3://climate-action-datalake/zone=raw/source=chirps/variable=precipitation.zarr/"
+    awsChirpsTemporalPath: "s3://climate-action-datalake/zone=temporal/source=chirps/variable=precipitation/"
+
+agera5ArgumentsSolarFlux:
+    pathforLanding: "/home/ec2-user/SageMaker/datalake/data/agera/brozen/"
+    pathforReggrid: "/home/ec2-user/SageMaker/datalake/data/agera/tmp/"
+    pathforStandardized: "/home/ec2-user/SageMaker/datalake/data/agera/silver/"
+    awsAgera5SolarFluxLandingPath: "s3://climate-action-datalake/zone=landing/source=CHIRPS/variable=precipitation/"
+    awsAgera5SolarFluxLandingRawPath: "s3://climate-action-datalake/zone=raw/source=chirps/variable=precipitation.zarr/"
+    awsAgera5SolarFluxLandingTemporalPath: "s3://climate-action-datalake/zone=temporal/source=chirps/variable=precipitation/"
