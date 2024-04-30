@@ -1,0 +1,1 @@
+export DATALAKE_CONF_PATH=/home/ec2-user/SageMaker/datalake/conf/data/configuration.yml
