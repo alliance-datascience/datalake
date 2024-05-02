@@ -1,6 +1,10 @@
 #install.packages('terra', repos='https://rspatial.r-universe.dev')
 library('terra')
+DATALAKE_CONF_PATH <- Sys.getenv("DATALAKE_CONF_PATH")
+confFile = read_yaml(DATALAKE_CONF_PATH)
+args = commandArgs(trailingOnly=TRUE)
 
+confFile = confFile$args[1]
 chirps <- rast('data/20230101.nc')
 
 resampleRaster <- function(rast_content, chirps, method = 'bilinear'
@@ -19,14 +23,14 @@ getFilesInFolder <- function(folderPath) {
   return(files)
 }
 
-dataProcess = getFilesInFolder('/home/ruser/data/netcdf')
-newPath= '/home/ruser/data/resampled/'
+dataProcess = getFilesInFolder(confFile$pathforLanding)
+newPath= confFile$pathforReggrid
 
 
 
 
 
-for (i in seq(11446,length(dataProcess))) {
+for (i in seq(1,length(dataProcess))) {
   getName <- strsplit(dataProcess[i],"/")
   fileName = getName[[1]][length(getName[[1]])]
   print(paste("processing....",fileName))
@@ -37,8 +41,3 @@ for (i in seq(11446,length(dataProcess))) {
 }
 
 
-idx <- which(dataProcess  == "/home/ruser/data/netcdf/Solar-Radiation-Flux_C3S-glob-agric_AgERA5_20110503_final-v1.0.nc") 
-
-
-
-dataProcess
