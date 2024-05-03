@@ -10,6 +10,6 @@ rm -rf *.gz
 cd ..
 
 set -e
-#/home/ec2-user/anaconda3/bin/python downloadChirpsMonthly.py
-/home/ec2-user/anaconda3/bin/python getMonthS3toNC.py --execution_type manual --year 2023 --month "09"
-/home/ec2-user/anaconda3/bin/python appendToZarr.py
+/home/ubuntu/anaconda/bin/python downloadChirpsMonthly.py
+/home/ubuntu/anaconda/bin/python getMonthS3toNC.py --execution_type auto
+/home/ubuntu/anaconda/bin/python appendToZarr.py
