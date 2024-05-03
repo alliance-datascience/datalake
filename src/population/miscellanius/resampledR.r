@@ -1,11 +1,13 @@
 #install.packages('terra', repos='https://rspatial.r-universe.dev')
 library('terra')
 DATALAKE_CONF_PATH <- Sys.getenv("DATALAKE_CONF_PATH")
-confFile = read_yaml(DATALAKE_CONF_PATH)
+HOME <- Sys.getenv("HOME")
+chirpsFile = paste0(paste0(HOME,"/"),"20230101.nc")
+confFile = yaml::read_yaml(DATALAKE_CONF_PATH)
 args = commandArgs(trailingOnly=TRUE)
-
-confFile = confFile$args[1]
-chirps <- rast('data/20230101.nc')
+confFile = confFile[[args[1]]]
+print(confFile)
+chirps <- rast(chirpsFile)
 
 resampleRaster <- function(rast_content, chirps, method = 'bilinear'
                           , threads = TRUE, filename, overwrite = TRUE) {
@@ -23,6 +25,7 @@ getFilesInFolder <- function(folderPath) {
   return(files)
 }
 
+print(confFile$pathforLanding)
 dataProcess = getFilesInFolder(confFile$pathforLanding)
 newPath= confFile$pathforReggrid
 
