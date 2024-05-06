@@ -1,0 +1,23 @@
+apiVersion: argoproj.io
+kind: Workflow
+metadata:
+  generateName: geospatialdata
+  project_name : "DATACUBE"
+  use_case: "GLOBAL"
+  
+chirpsArguments:
+    pathforTGZ: "/home/ec2-user/SageMaker/datalake/notebooks/chirps/tgz/"
+    pathforNCDF: "/home/ec2-user/SageMaker/datalake/notebooks/chirps/nc/"
+    awsChirpsLandingPath: "s3://climate-action-datalake/zone=landing/source=CHIRPS/variable=precipitation/"
+    awsChirpsRawPath: "s3://climate-action-datalake/zone=raw/source=chirps/variable=precipitation.zarr/"
+    awsChirpsTemporalPath: "s3://climate-action-datalake/zone=temporal/source=chirps/variable=precipitation/"
+
+agera5ArgumentsSolarFlux:
+    s3VariableName: "solar-radiation-flux"
+    pathforLanding: "/home/ec2-user/SageMaker/datalake/data/agera/solarFlux/brozen/"
+    pathforReggrid: "/home/ec2-user/SageMaker/datalake/data/agera/solarFlux/tmp/"
+    pathforStandardized: "/home/ec2-user/SageMaker/datalake/data/agera/solarFlux/silver/"
+    s3Landing: "s3://climate-action-datalake/zone=landing/source=agera5/variable=solar-radiation-flux/"
+    s3Raw: "s3://climate-action-datalake/zone=raw/source=agera5/variable=solarRadiationFlux.zarr/"
+    s3Temp: "s3://climate-action-datalake/zone=landing/source=agera5/variable=solar-radiation-flux/"
+    fileName: "Solar-Radiation-Flux_C3S-glob-agric_AgERA5_"
