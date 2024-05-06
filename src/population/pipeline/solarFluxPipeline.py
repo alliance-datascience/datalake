@@ -11,6 +11,7 @@ confFileY = os.environ["DATALAKE_CONF_PATH"]
 sys.path.append(srcPath)
 from population.miscellanius import S3utilities
 from population.sources.agera import downloadData
+from population.sources.agera.solarRadiationFlux import appendIntoZarr
 import glob
 from yaml import safe_load
 
@@ -123,13 +124,20 @@ class deleteUnusedFiles(luigi.Task):
     def output(self):
         return luigi.LocalTarget('/tmp/deleteUnusedFiles.txt')
 
+class appendFiles(luigi.Task):
+
+    confType = luigi.Parameter()
+    year = luigi.Parameter()
+    month = luigi.Parameter()
+    variable = luigi.Parameter()
+
+
+    def run(self):
+        appendIntoZarr.appendIntoZarr()
 
         
-
-
-
 if __name__ == "__main__" :
-    luigi.build([deleteUnusedFiles(confType=confType,
+    luigi.build([appendFiles(confType=confType,
                                   year=year,
                                   month=month,
                                   variable=variable)],
