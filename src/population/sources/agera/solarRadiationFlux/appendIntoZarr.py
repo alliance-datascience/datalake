@@ -70,8 +70,8 @@ class appendIntoZarr:
                                            2000,
                                            7200)} for vname in nc.data_vars}
             with ProgressBar():
-                print("Hello")
-                #nc.to_zarr(ageraS3,  mode='a-', append_dim='time', consolidated=True)
+                #print("Hello")
+                nc.to_zarr(ageraS3,  mode='a-', append_dim='time', consolidated=True)
             logging.warning("Insert finished")
 
     def __init__(self):
