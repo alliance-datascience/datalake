@@ -17,7 +17,7 @@ from yaml import safe_load
 
 confType = "agera5ArgumentsSolarFlux"
 year = 2024
-month = "01"
+month = "02"
 variable = "solar_radiation_flux"
 conf_args = safe_load(open(confFileY, 'r'))
 conf_args = conf_args[confType]
@@ -68,7 +68,7 @@ class downloadDataFromS3(luigi.Task):
 
     def output(self):
         return luigi.LocalTarget('/tmp/downloadDataFromS3.txt')
-    
+
 
 
 
@@ -101,6 +101,7 @@ class changeResolution(luigi.Task):
 
 class deleteUnusedFiles(luigi.Task):
 
+
     confType = luigi.Parameter()
     year = luigi.Parameter()
     month = luigi.Parameter()
@@ -124,22 +125,34 @@ class deleteUnusedFiles(luigi.Task):
     def output(self):
         return luigi.LocalTarget('/tmp/deleteUnusedFiles.txt')
 
-class appendFiles(luigi.Task):
+
+class appendZarrFiles(luigi.Task):
+
 
     confType = luigi.Parameter()
     year = luigi.Parameter()
     month = luigi.Parameter()
     variable = luigi.Parameter()
 
+    def requires(self):
+        return deleteUnusedFiles(self.confType,
+                                 self.year,
+                                 self.month,
+                                 self.variable)
 
     def run(self):
         appendIntoZarr.appendIntoZarr()
+        with self.output().open('w') as f:
+            print("OK", file=f)
 
-        
-if __name__ == "__main__" :
-    luigi.build([appendFiles(confType=confType,
-                                  year=year,
-                                  month=month,
-                                  variable=variable)],
+    def output(self):
+        return luigi.LocalTarget('/tmp/appendZarrFiles.txt')
+
+
+if __name__ == "__main__":
+
+    luigi.build([appendZarrFiles(confType=confType,
+                                 year=year,
+                                 month=month, variable=variable)],
                 local_scheduler=True)
 
