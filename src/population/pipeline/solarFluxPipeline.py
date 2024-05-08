@@ -16,8 +16,8 @@ import glob
 from yaml import safe_load
 
 confType = "agera5ArgumentsSolarFlux"
-year = 2024
-month = "02"
+year = 2023
+month = "10"
 variable = "solar_radiation_flux"
 conf_args = safe_load(open(confFileY, 'r'))
 conf_args = conf_args[confType]
@@ -147,11 +147,38 @@ class appendZarrFiles(luigi.Task):
 
     def output(self):
         return luigi.LocalTarget('/tmp/appendZarrFiles.txt')
+    
+class deleteUsedFiles(luigi.Task):
 
+    confType = luigi.Parameter()
+    year = luigi.Parameter()
+    month = luigi.Parameter()
+    variable = luigi.Parameter()
+
+    def requires(self):
+        return changeResolution(self.confType,
+                                  self.year,
+                                  self.month,
+                                  self.variable)
+    def run(self):
+        filesForDelete = conf_args["pathforLanding"]+"*"
+        for filename in glob.glob(filesForDelete):
+            os.remove(filename)
+        filesForDelete = conf_args["pathforReggrid"]+"*"
+        for filename in glob.glob(filesForDelete):
+            os.remove(filename)
+        filesForDelete = conf_args["pathforStandardized"]+"*"
+        for filename in glob.glob(filesForDelete):
+            os.remove(filename)
+        with self.output().open('w') as f:
+            print("OK", file=f)
+
+    def output(self):
+        return luigi.LocalTarget('/tmp/deleteUsedFiles.txt')
 
 if __name__ == "__main__":
 
-    luigi.build([appendZarrFiles(confType=confType,
+    luigi.build([deleteUsedFiles(confType=confType,
                                  year=year,
                                  month=month, variable=variable)],
                 local_scheduler=True)
