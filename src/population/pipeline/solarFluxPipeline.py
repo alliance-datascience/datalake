@@ -156,7 +156,7 @@ class deleteUsedFiles(luigi.Task):
     variable = luigi.Parameter()
 
     def requires(self):
-        return changeResolution(self.confType,
+        return appendZarrFiles(self.confType,
                                   self.year,
                                   self.month,
                                   self.variable)
