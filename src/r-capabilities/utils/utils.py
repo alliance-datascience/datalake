@@ -36,7 +36,7 @@ def filterData(zarrData,rangeOfDates
                            )
     variables =  [i for i in zarrData.data_vars.keys()]
     if variables[0] == 'precipitation':
-        zarrData = zarrData.where(zarrData[variables[0]]>0])
+        zarrData = zarrData.where(zarrData[variables[0]]>0)
     return zarrData
 
 def filterArea(zarrData
@@ -52,5 +52,5 @@ def filterArea(zarrData
                            )
     variables =  [i for i in zarrData.data_vars.keys()]
     if variables[0] == 'precipitation':
-        zarrData = zarrData.where(zarrData[variables[0]]>0])
+        zarrData = zarrData.where(zarrData[variables[0]]>0)
     return zarrData

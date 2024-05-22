@@ -53,10 +53,10 @@ def getDataArea(request: getDataRequestArea):
     zarrData = utils.initializeZarrConnection(s3Path,s3)
     zarrData = utils.filterArea(zarrData
                                 ,rangeOfDates
-                                ,request.xmax:float
-                                ,request.xmin:float
-                                ,request.ymax:float
-                                ,request.ymin:float
+                                ,request.xmax
+                                ,request.xmin
+                                ,request.ymax
+                                ,request.ymin
                                )
     fileName = str(random.randint(0,250655))
     
