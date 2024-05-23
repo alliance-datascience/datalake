@@ -15,3 +15,10 @@ class getDataRequestArea(BaseModel):
     xmin: float
     ymax: float
     ymin: float
+    
+class getDataRequestAll(BaseModel):
+    variableName: str
+    xmax: float
+    xmin: float
+    ymax: float
+    ymin: float

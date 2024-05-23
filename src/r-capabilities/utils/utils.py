@@ -54,3 +54,18 @@ def filterArea(zarrData
     if variables[0] == 'precipitation':
         zarrData = zarrData.where(zarrData[variables[0]]>0)
     return zarrData
+
+
+def filterAllArea(zarrData
+               ,xmax:float
+               ,xmin:float
+               ,ymax:float
+               ,ymin:float
+              )->xr.Dataset:
+    zarrData = zarrData.sel(lat=slice(ymax,ymin)
+                            ,lon=slice(xmin, xmax)
+                           )
+    variables =  [i for i in zarrData.data_vars.keys()]
+    if variables[0] == 'precipitation':
+        zarrData = zarrData.where(zarrData[variables[0]]>0)
+    return zarrData

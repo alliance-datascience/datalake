@@ -62,6 +62,26 @@ def getDataArea(request: getDataRequestArea):
     
     zarrData.to_netcdf(f'{fileName}.nc')
     return FileResponse(f'{fileName}.nc')
+
+@app.post('/v1/getAllData')
+def getAllData(request: getDataRequestAll):
+    global s3
+    print("S3 Key :", request.variableName)
+    
+    s3Path = utils.readConfiguration('zarr-path',request.variableName)
+    rangeOfDates = pd.date_range(start=request.startDt,end=request.endDt)
+    print("S3 Key :", s3Path, "---- ")
+    zarrData = utils.initializeZarrConnection(s3Path,s3)
+    zarrData = utils.filterAllArea(zarrData
+                                ,request.xmax
+                                ,request.xmin
+                                ,request.ymax
+                                ,request.ymin
+                               )
+    fileName = str(random.randint(0,250655))
+    
+    zarrData.to_netcdf(f'{fileName}.nc')
+    return FileResponse(f'{fileName}.nc')
     
     
     
