@@ -21,3 +21,13 @@ agera5ArgumentsSolarFlux:
     s3Raw: "s3://climate-action-datalake/zone=raw/source=agera5/variable=solarRadiationFlux.zarr/"
     s3Temp: "s3://climate-action-datalake/zone=landing/source=agera5/variable=solar-radiation-flux/"
     fileName: "Solar-Radiation-Flux_C3S-glob-agric_AgERA5_"
+
+isdaArgumentsAluminiumExtractable:
+    s3VariableName: "aluminium-extractable"
+    pathforLanding: "/home/ec2-user/SageMaker/datalake/data/agera/solarFlux/brozen/"
+    pathforReggrid: "/home/ec2-user/SageMaker/datalake/data/agera/solarFlux/tmp/"
+    pathforStandardized: "/home/ec2-user/SageMaker/datalake/data/agera/solarFlux/silver/"
+    s3Landing: "s3://climate-action-datalake/zone=landing/source=isda/variable=aluminium-extractable/"
+    s3Raw: "s3://climate-action-datalake/zone=raw/source=isda/variable=aluminiumExtractable.zarr/"
+    s3Temp: "s3://climate-action-datalake/zone=landing/source=isda/variable=aluminium-extractable/"
+    fileName: "Solar-Radiation-Flux_C3S-glob-agric_AgERA5_"
