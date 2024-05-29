@@ -7,7 +7,7 @@ confFile = yaml::read_yaml(DATALAKE_CONF_PATH)
 args = commandArgs(trailingOnly=TRUE)
 confFile = confFile[[args[1]]]
 print(confFile)
-chirps <- rast(chirpsFile)
+chirps <- terra::rast(chirpsFile)
 
 projectRaster <- function(rast_content, chirps, method = 'bilinear',
                           threads = T, filename, overwrite = T){
@@ -41,9 +41,9 @@ for (i in seq(1,length(dataProcess))) {
   getName <- strsplit(dataProcess[i],"/")
   fileName = getName[[1]][length(getName[[1]])]
   print(paste("processing....",fileName))
-  resampleRaster(rast_content=dataProcess[i]
-                 , chirps=chirps
-                 ,filename= paste0(newPath,fileName)
+  projectRaster(rast_content = dataProcess[i],
+                chirps       = chirps,
+                filename     = paste0(newPath,fileName)
   )
 }
 
