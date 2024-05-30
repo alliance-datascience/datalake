@@ -30,4 +30,4 @@ isdaArgumentsAluminiumExtractable:
     s3Landing: "s3://climate-action-datalake/zone=landing/source=isda/variable=aluminium-extractable/"
     s3Raw: "s3://climate-action-datalake/zone=raw/source=isda/variable=aluminiumExtractable.zarr/"
     s3Temp: "s3://climate-action-datalake/zone=landing/source=isda/variable=aluminium-extractable/"
-    fileName: "Solar-Radiation-Flux_C3S-glob-agric_AgERA5_"
+    fileName: "aluminium_extractable"
