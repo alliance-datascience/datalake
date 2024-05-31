@@ -21,6 +21,9 @@ system.time(expr = {
   ref <- terra::rast(paste0('/vsigzip//vsicurl/',chirps_ref)); rm(chirps_ref)
   ref[ref == -9999] <- NA
   
+  memory.limit()
+  memory.limit(size = 15000)
+  
   out_dir <- getwd()
   r_proj <- terra::project(x = r, y = ref, method = 'bilinear', threads = T, filename = paste0(out_dir,'/ph_0_05.tif'), overwrite = T)
   terra::writeCDF(x = r_proj, filename = paste0(out_dir,'/ph_0_05.nc'),
