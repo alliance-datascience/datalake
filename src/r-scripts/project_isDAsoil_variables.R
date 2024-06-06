@@ -89,4 +89,4 @@ lyr_names <- c('magnesium_avg_00-20cm', 'magnesium_avg_20-50cm', 'magnesium_std_
 var_name  <- 'magnesium_extractable'
 long_name <- 'Magnesium extractable'
 var_units <- 'ppm'
-outfile   <- paste0('//CATALOGUE/WFP_ClimateRiskPr1/agroclimExtremes/',gsub('.tif','',basename(url)))
+outfile   <- paste0('//CATALOGUE/WFP_ClimateRiskPr1/agroclimExtremes/iSDA/',gsub('.tif','',basename(url)))
