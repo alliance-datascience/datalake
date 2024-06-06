@@ -42,12 +42,67 @@ var_name  = stp$var_name[1]
 var_depth = stp$var_depth[1]
 var_stats = stp$var_stats[1]
 
+outdir <- '//CATALOGUE/WFP_ClimateRiskPr1/agroclimExtremes/SoilGrids'
+
 # Virtual connection to SoilGrids 250m version 2.0
 if(var_name == 'wrb'){
   r <- geodata::soil_world_vsi(var = var_name, name = soil_group)
 } else {
   r <- geodata::soil_world_vsi(var = var_name, depth = var_depth, stat = var_stats)
 }
+
+system.time(expr = {
+  
+  library(pacman)
+  pacman::p_load(terra, gdalUtilities)
+  
+  sg_url <- "/vsicurl/https://files.isric.org/soilgrids/latest/data/"
+  var <- "bdod"
+  depth <- "5"
+  dd <- "0-5"
+  stat <- "mean"
+  
+  u <- file.path(sg_url, var, paste0(var,"_",dd,"cm_",stat,".vrt"))
+  # r <- terra::rast(u)
+  intrmd_vrt <- paste0(tempfile(),'.vrt')
+  output_vrt <- paste0(tempfile(),'.vrt')
+  # v <- terra::vrt(u, vrtfile, options = c('-a_srs', 'EPSG:4326', '-tr', 0.05, 0.05)) # This works partially
+  
+  gdalUtilities::gdalbuildvrt(gdalfile        = u,
+                              output.vrt      = intrmd_vrt,
+                              b               = 1,
+                              resolution      = 'user',
+                              tr              = c(5500, 5500), 
+                              r               = 'bilinear')
+  gdalUtilities::gdalwarp(srcfile = intrmd_vrt,
+                          dstfile = output_vrt,
+                          t_srs   = 'EPSG:4326')
+  
+  r <- terra::rast(output_vrt)
+  
+  terra::writeRaster(x = r, filename = '//CATALOGUE/WFP_ClimateRiskPr1/agroclimExtremes/SoilGrids/test.tif')
+  r1 <- terra::rast('//CATALOGUE/WFP_ClimateRiskPr1/agroclimExtremes/SoilGrids/test.tif')
+  
+  # Reference raster (CHIRPS)
+  chirps_ref <- 'https://data.chc.ucsb.edu/products/CHIRPS-2.0/global_daily/tifs/p05/2023/chirps-v2.0.2023.01.01.tif.gz'
+  ref <- terra::rast(paste0('/vsigzip//vsicurl/',chirps_ref)); rm(chirps_ref)
+  ref[ref == -9999] <- NA
+  
+  r_rsmp <- terra::resample(x = r1, y = ref, method = 'bilinear', threads = T, filename = '//CATALOGUE/WFP_ClimateRiskPr1/agroclimExtremes/SoilGrids/test_rsmpld.tif')
+  
+})
+
+# gdalbuildvrt -b 1 -resolution highest -r nearest "output.vrt" "input.tif"
+# gdalwarp -t_srs EPSG:4326 output.vrt output_warped.vrt
+
+x <- terra::rast(ncols = 2, nrows = 2)
+x <- terra::project(x = x, y = crs(r))
+
+terra::vrt(raster_files, )
+
+filename <- paste0(tempfile(), "_.tif")
+ff <- terra::makeTiles(r, x, filename)
+v <- vrt(ff, vrtfile, options = c('-a_srs', 'EPSG:4326', '-tr', 0.05, 0.05))
 
 label_stats <- dplyr::case_when(var_stats == 'mean' ~ 'avg',
                                 var_stats == 'uncertainty' ~ 'std',
@@ -62,13 +117,14 @@ label_depth <- dplyr::case_when(var_depth == '5' ~ '00-05cm',
                                 var_depth == '200' ~ '100-200cm')
 
 names(r) <- paste0(var_name,'_',label_stats,'_',label_depth)
+# terra::terraOptions(todisk = T, memfrac = 0.5)
+terra::writeRaster(r, filename = paste0(outdir,'/',names(r),'_raw.tif'))
+r <- terra::rast(paste0(outdir,'/',names(r),'_raw.tif'))
 
 # Reference raster (CHIRPS)
 chirps_ref <- 'https://data.chc.ucsb.edu/products/CHIRPS-2.0/global_daily/tifs/p05/2023/chirps-v2.0.2023.01.01.tif.gz'
 ref <- terra::rast(paste0('/vsigzip//vsicurl/',chirps_ref)); rm(chirps_ref)
 ref[ref == -9999] <- NA
-
-outdir <- '//CATALOGUE/WFP_ClimateRiskPr1/agroclimExtremes/SoilGrids'
 
 r_proj <- terra::project(x = r, y = ref, method = 'bilinear', threads = T, filename = paste0(outdir,'/',names(r),'.tif'), overwrite = T)
 terra::writeCDF(x = r_proj, filename = paste0(outfile,'.nc'), varname = var_name, longname = long_name, unit = var_units, compression = 9, overwrite = T)
