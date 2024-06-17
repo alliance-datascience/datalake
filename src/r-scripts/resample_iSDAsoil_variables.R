@@ -1,6 +1,37 @@
+# ------------------------------------------ #
+# Resampling iSDAsoil dataset
+# By: Harold Achicanoy
+# Alliance Bioversity CIAT
+# June 2024
+# ------------------------------------------ #
+
+## R options and packages loading ----
 options(warn = -1, scipen = 999)
 suppressMessages(if(!require(pacman)){install.packages('pacman');library(pacman)} else {library(pacman)})
-suppressMessages(pacman::p_load(terra, ncdf4))
+suppressMessages(pacman::p_load(terra, ncdf4, readxl, gdalUtilities))
+
+src_dir <- 'D:/ToBackup/CGIAR_climate_action/datalake'
+
+## Setup table ----
+stp <- readxl::read_excel(path = paste0(src_dir,'/data/soils_metadata.xlsx'), sheet = 3) |> base::as.data.frame()
+
+u <- stp$URL[1]
+
+# Temporal vrt rasters
+intrmd_vrt <- paste0(tempfile(),'.vrt') # Intermediate raster
+intrmd_vrt <- '//CATALOGUE/WFP_ClimateRiskPr1/agroclimExtremes/int.vrt'
+output_vrt <- paste0(tempfile(),'.vrt') # Final raster
+output_vrt <- '//CATALOGUE/WFP_ClimateRiskPr1/agroclimExtremes/out.vrt'
+
+## GDAL operations
+# gdalbuildvrt -b 1 -resolution highest -r nearest "output.vrt" "input.tif"
+# gdalwarp -t_srs EPSG:4326 output.vrt output_warped.vrt
+
+# Resample to 5x5km
+gdalUtilities::gdalbuildvrt(gdalfile = u, output.vrt = intrmd_vrt, b = 1, resolution = 'user', tr = c(5500, 5500), r = 'bilinear')
+# Original CRS to EPSG:4326
+gdalUtilities::gdalwarp(srcfile = intrmd_vrt, dstfile = output_vrt, t_srs = 'EPSG:4326')
+
 
 # Read original raster
 r <- terra::rast(paste0('/vsicurl/', url))
