@@ -16,12 +16,13 @@ src_dir <- 'D:/ToBackup/CGIAR_climate_action/datalake'
 stp <- readxl::read_excel(path = paste0(src_dir,'/data/soils_metadata.xlsx'), sheet = 3) |> base::as.data.frame()
 
 u <- stp$URL[1]
+u <- paste0('/vsicurl/',u)
+
+# r <- terra::rast(u)
 
 # Temporal vrt rasters
 intrmd_vrt <- paste0(tempfile(),'.vrt') # Intermediate raster
-intrmd_vrt <- '//CATALOGUE/WFP_ClimateRiskPr1/agroclimExtremes/int.vrt'
 output_vrt <- paste0(tempfile(),'.vrt') # Final raster
-output_vrt <- '//CATALOGUE/WFP_ClimateRiskPr1/agroclimExtremes/out.vrt'
 
 ## GDAL operations
 # gdalbuildvrt -b 1 -resolution highest -r nearest "output.vrt" "input.tif"
@@ -31,6 +32,24 @@ output_vrt <- '//CATALOGUE/WFP_ClimateRiskPr1/agroclimExtremes/out.vrt'
 gdalUtilities::gdalbuildvrt(gdalfile = u, output.vrt = intrmd_vrt, b = 1, resolution = 'user', tr = c(5500, 5500), r = 'bilinear')
 # Original CRS to EPSG:4326
 gdalUtilities::gdalwarp(srcfile = intrmd_vrt, dstfile = output_vrt, t_srs = 'EPSG:4326')
+
+outdir <- '//CATALOGUE/WFP_ClimateRiskPr1/agroclimExtremes/iSDA'
+
+# Load GDAL vrt result
+r <- terra::rast(output_vrt)
+# Write GDA: vrt result to tif
+terra::writeRaster(x = r, filename = paste0(outdir,'/',gsub('.tif','',basename(u)),'_intrmd.tif'), overwrite = T)
+r <- terra::rast(paste0(outdir,'/',gsub('.tif','',basename(u)),'_intrmd.tif'))
+
+# Reference raster (CHIRPS)
+chirps_ref <- 'https://data.chc.ucsb.edu/products/CHIRPS-2.0/global_daily/tifs/p05/2023/chirps-v2.0.2023.01.01.tif.gz'
+ref <- terra::rast(paste0('/vsigzip//vsicurl/',chirps_ref)); rm(chirps_ref)
+ref[ref == -9999] <- NA
+
+# Save resampled raster into tif and nc formats
+r_rsmp <- terra::resample(x = r, y = ref, method = 'bilinear', threads = T, filename = paste0(outdir,'/',gsub('.vrt','.tif',basename(u))), overwrite = T)
+terra::writeCDF(x = r_rsmp, filename = paste0(outdir,'/',gsub('.tif','.nc',basename(u))), varname = var_name, longname = long_name, unit = var_units, compression = 9)
+
 
 
 # Read original raster

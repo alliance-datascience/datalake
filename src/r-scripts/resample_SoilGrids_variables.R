@@ -52,6 +52,7 @@ stp$var_depth <- as.numeric(stp$var_depth)
 stp <- stp[-which(stp$var_name == 'ocs' & stp$var_depth != 30),]
 stp$long_name[stp$var_name == 'wrb'] <- paste0(stp$long_name[stp$var_name == 'wrb'],'-',stp$soil_group[stp$var_name == 'wrb'])
 stp$var_units[stp$var_name == 'wrb'] <- 'Probability'
+rownames(stp) <- 1:nrow(stp)
 
 outdir <- '//CATALOGUE/WFP_ClimateRiskPr1/agroclimExtremes/SoilGrids'
 
@@ -76,7 +77,11 @@ GDAL_processing <- function(var_name, var_depth, var_stats, var_units, long_name
     # gdalwarp -t_srs EPSG:4326 output.vrt output_warped.vrt
     
     # Resample to 5x5km
-    gdalUtilities::gdalbuildvrt(gdalfile = u, output.vrt = intrmd_vrt, b = 1, resolution = 'user', tr = c(5500, 5500), r = 'bilinear')
+    if(var_name == 'wrb'){
+      gdalUtilities::gdalbuildvrt(gdalfile = u, output.vrt = intrmd_vrt, b = 1, resolution = 'user', tr = c(0.05, 0.05), r = 'bilinear')
+    } else {
+      gdalUtilities::gdalbuildvrt(gdalfile = u, output.vrt = intrmd_vrt, b = 1, resolution = 'user', tr = c(5500, 5500), r = 'bilinear')
+    }
     # Original CRS to EPSG:4326
     gdalUtilities::gdalwarp(srcfile = intrmd_vrt, dstfile = output_vrt, t_srs = 'EPSG:4326')
     
