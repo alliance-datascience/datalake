@@ -21,3 +21,13 @@ agera5ArgumentsSolarFlux:
     s3Raw: "s3://climate-action-datalake/zone=raw/source=agera5/variable=solarRadiationFlux.zarr/"
     s3Temp: "s3://climate-action-datalake/zone=landing/source=agera5/variable=solar-radiation-flux/"
     fileName: "Solar-Radiation-Flux_C3S-glob-agric_AgERA5_"
+    
+agera5ArgumentsTemperatureMax:
+    s3VariableName: "2mTemperature"
+    pathforLanding: "/home/ec2-user/SageMaker/datalake/data/agera/temperature/brozen/"
+    pathforReggrid: "/home/ec2-user/SageMaker/datalake/data/agera/temperature/tmp/"
+    pathforStandardized: "/home/ec2-user/SageMaker/datalake/data/agera/temperature/silver/"
+    s3Landing: "s3://climate-action-datalake/zone=landing/source=agera5/variable=2mTemperature/"
+    s3Raw: "s3://climate-action-datalake/zone=raw/source=agera5/variable=2mTemperatureMax.zarr/"
+    s3Temp: "s3://climate-action-datalake/zone=landing/source=agera5/variable=2mTemperatureMax/"
+    fileName: "2mTemperatureMax_C3S-glob-agric_AgERA5_"
