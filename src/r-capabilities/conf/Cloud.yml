@@ -1,12 +1,10 @@
 cloud-storage: "Amazon cloud services S3"
 zarr-path:
     chirps-precipitation: "s3://climate-action-datalake/zone=raw/source=chirps/variable=precipitation.zarr/"
-    agera5-maxairtemperature: "s3://climate-action-datalake/zone=raw/source=agera5/variable=airTemperatureMax.zarr/"
-    agera5-solarflux: "s3://climate-action-datalake/zone=raw/source=agera5/variable=solarRadiationFlux.zarr/"
+    agera5-temperature: "s3://climate-action-datalake/zone=raw/source=agera5-v1-1/variable=Temperature_Air.zarr/"
+    agera5-windSpeed: "s3://climate-action-datalake/zone=raw/source=agera5-v1-1/variable=windSpeed.zarr/"
+    agera5-relativehumidity: "s3://climate-action-datalake/zone=raw/source=agera5-v1-1/variable=relativehumidity.zarr/"
 
-read-access-keys:
-    key: "AKIATHPVGK3ZVLVSHEEF"
-    secret: "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"
 
     
     

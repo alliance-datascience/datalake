@@ -7,16 +7,17 @@ import numpy as np
 import s3fs
 from utils import utils
 from fastapi import FastAPI
-from model.models import getDataRequest,getDataRequestArea
+from model.models import getDataRequest,getDataRequestArea,getDataRequestAll
 from fastapi.responses import FileResponse
 import random
+import os
 
 
 
 
 
-s3Key = utils.readConfiguration('read-access-keys','key')
-s3Secret = utils.readConfiguration('read-access-keys','secret')
+s3Key = os.environ["KEY"]
+s3Secret = os.environ["SECRET"]
 
 s3 = s3fs.S3FileSystem(key= s3Key
                        ,secret=s3Secret)
@@ -38,8 +39,8 @@ def getData(request: getDataRequest):
                                )
     fileName = str(random.randint(0,250655))
     
-    zarrData.to_netcdf(f'{fileName}.nc')
-    return FileResponse(f'{fileName}.nc')
+    zarr_response = zarrData.to_dataframe()
+    return zarr_response.to_json(orient='records')
 
 
 @app.post('/v1/getdataArea')
@@ -69,7 +70,7 @@ def getAllData(request: getDataRequestAll):
     print("S3 Key :", request.variableName)
     
     s3Path = utils.readConfiguration('zarr-path',request.variableName)
-    rangeOfDates = pd.date_range(start=request.startDt,end=request.endDt)
+    #rangeOfDates = pd.date_range(start=request.startDt,end=request.endDt)
     print("S3 Key :", s3Path, "---- ")
     zarrData = utils.initializeZarrConnection(s3Path,s3)
     zarrData = utils.filterAllArea(zarrData
