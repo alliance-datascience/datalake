@@ -1,8 +1,9 @@
 #install.packages('terra', repos='https://rspatial.r-universe.dev')
 library('terra')
 DATALAKE_CONF_PATH <- Sys.getenv("DATALAKE_CONF_PATH")
-HOME <- Sys.getenv("HOME")
-chirpsFile = paste0(paste0(HOME,"/"),"20230101.nc")
+#HOME <- Sys.getenv("HOME")
+#chirpsFile = paste0(paste0(HOME,"/"),"20230101.nc")
+chirpsFile = "/home/ec2-user/SageMaker/datalake/data/agera/chirps_reference.nc"
 confFile = yaml::read_yaml(DATALAKE_CONF_PATH)
 args = commandArgs(trailingOnly=TRUE)
 confFile = confFile[[args[1]]]

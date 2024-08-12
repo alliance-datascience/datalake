@@ -1,0 +1,7 @@
+tmp_folder: "/home/ec2-user/SageMaker/datalake/data/agera/temperature/tmp_test/"
+s3_output_path: "s3://climate-action-datalake/zone=raw/source=agera5/variable=Temperature_Air_2m_Max_24h.zarr"
+chunk_size: 50
+dask_n_workers: 16
+dask_threads_per_worker: 1
+dask_memory_limit: "8GB"
+retry_max_attempts: 5

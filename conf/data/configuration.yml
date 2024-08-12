@@ -28,6 +28,6 @@ agera5ArgumentsTemperatureMax:
     pathforReggrid: "/home/ec2-user/SageMaker/datalake/data/agera/temperature/tmp/"
     pathforStandardized: "/home/ec2-user/SageMaker/datalake/data/agera/temperature/silver/"
     s3Landing: "s3://climate-action-datalake/zone=landing/source=agera5/variable=2mTemperature/"
-    s3Raw: "s3://climate-action-datalake/zone=raw/source=agera5/variable=2mTemperatureMax.zarr/"
-    s3Temp: "s3://climate-action-datalake/zone=landing/source=agera5/variable=2mTemperatureMax/"
+    s3Raw: "s3://climate-action-datalake/zone=raw/source=agera5/variable=temperature.zarr/"
+    s3Temp: "s3://climate-action-datalake/zone=temporal/source=agera5/variable=temperature/"
     fileName: "2mTemperatureMax_C3S-glob-agric_AgERA5_"

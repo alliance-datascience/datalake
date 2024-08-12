@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-
-
 import sys
 import luigi
 import os
@@ -38,10 +36,6 @@ class getDatafromAgera(luigi.Task):
             print("OK", file=f)
     def output(self):
         return luigi.LocalTarget('/tmp/getDatafromAgera.txt')
-
-
-
-
 
 
 class downloadDataFromS3(luigi.Task):
@@ -127,7 +121,6 @@ class deleteUnusedFiles(luigi.Task):
 
 
 class appendZarrFiles(luigi.Task):
-
 
     confType = luigi.Parameter()
     year = luigi.Parameter()

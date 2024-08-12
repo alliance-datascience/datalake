@@ -81,6 +81,7 @@ s3ZarrPath = "s3://climate-action-datalake/zone=raw/source=agera5/variable=solar
 s3ZarrWindSpeed = "s3://climate-action-datalake/zone=raw/source=agera5/variable=windspeed.zarr/"
 s3Humidity = "s3://climate-action-datalake/zone=raw/source=agera5/variable=relativehumidity.zarr/"
 s3Precipitation = "s3://climate-action-datalake/zone=raw/source=chirps/variable=precipitation.zarr/"
+s3TemperatureMax = "s3://climate-action-datalake/zone=raw/source=agera5/variable=temperatureMax.zarr/"
 ```
 ### Define Store
 ```
@@ -88,5 +89,6 @@ storeWindSpeed = s3fs.S3Map(root=s3ZarrWindSpeed, s3=s3, check=False)
 storeHumidity = s3fs.S3Map(root=s3Humidity, s3=s3, check=False)
 storeSolarFlux = s3fs.S3Map(root=s3ZarrPath, s3=s3, check=False)
 storePrecipitation = s3fs.S3Map(root=s3Precipitation, s3=s3, check=False)
+storeTemperatureMax = s3fs.S3Map(root=s3TemperatureMax, s3=s3, check=False)
 ```
 
