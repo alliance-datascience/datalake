@@ -3,7 +3,7 @@ zarr-path:
     chirps-precipitation: "s3://climate-action-datalake/zone=raw/source=chirps/variable=precipitation.zarr/"
     agera5-temperature: "s3://climate-action-datalake/zone=raw/source=agera5-v1-1/variable=Temperature_Air.zarr/"
     agera5-windSpeed: "s3://climate-action-datalake/zone=raw/source=agera5-v1-1/variable=windSpeed.zarr/"
-    agera5-relativehumidity: "s3://climate-action-datalake/zone=raw/source=agera5-v1-1/variable=relativehumidity.zarr/"
+    agera5-relativehumidity: "s3://climate-action-datalake/zone=raw/source=agera5-v1-1/variable=relativeHumidity.zarr/"
 
 
     
